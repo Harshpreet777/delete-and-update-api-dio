@@ -1,8 +1,7 @@
-import 'package:deleteapi/model/request_model.dart';
 import 'package:deleteapi/model/response_model.dart';
+import 'package:deleteapi/screens/edit_screen.dart';
 import 'package:deleteapi/services/dio_delete_api_services.dart';
 import 'package:deleteapi/services/dio_get_api_services.dart';
-import 'package:deleteapi/services/dio_update_api_services.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -13,8 +12,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreen extends State<HomeScreen> {
-  int deleteId = 5971328;
   late Future<List<ResponseModel>>? futureData;
+
   @override
   void initState() {
     super.initState();
@@ -62,6 +61,7 @@ class _HomeScreen extends State<HomeScreen> {
                                       setState(() {
                                         if (deleteId2 == data.id) {
                                           DeleteApi.deleteData(id: data.id);
+                                          futureData = DioApiService.getData();
                                           showDialog<String>(
                                               context: context,
                                               builder: (BuildContext context) =>
@@ -87,8 +87,6 @@ class _HomeScreen extends State<HomeScreen> {
                                                       ),
                                                     ],
                                                   ));
-                                              futureData = DioApiService.getData();
-
                                         }
                                       });
                                     },
@@ -99,20 +97,20 @@ class _HomeScreen extends State<HomeScreen> {
                                     )),
                                 InkWell(
                                     onTap: () {
-                                      
-                                      setState(() {
-                                        
-                                          RequestModel requestModel =
-                                              RequestModel(
-                                                  email:
-                                                      'Harshpreet123674645@gmail.com',
-                                                  name: 'Harshpreet',
-                                                  gender: 'male',
-                                                  status: 'active');
-                                          UpdateApi.updateData(
-                                              requestModel, data.id);
-                                        
-                                      });
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                const EditScreen(),
+                                          ));
+                                      // RequestModel requestModel =
+                                      //     RequestModel(
+                                      //         email: 'update23@gmail.com',
+                                      //         name: 'update',
+                                      //         gender: 'male',
+                                      //         status: 'active');
+                                      // UpdateApi.updateData(
+                                      //     requestModel, data.id);
                                     },
                                     child: const Icon(
                                       Icons.edit,
